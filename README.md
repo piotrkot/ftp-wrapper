@@ -1,1 +1,1 @@
-Simple FTP wrapper for Apache FTPClient which is not object oriented.
+Simple object oriented wrapper for Apache FTPClient.

@@ -6,7 +6,7 @@
 
     <groupId>com.piokot</groupId>
     <artifactId>ftp</artifactId>
-    <description>Wrapper FTP for Apache FTPClient which is not object oriented.</description>
+    <description>Simple object oriented wrapper for Apache FTPClient.</description>
     <version>1.0-SNAPSHOT</version>
     <dependencies>
         <dependency>
