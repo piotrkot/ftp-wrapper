@@ -27,39 +27,12 @@
  * are those of the authors and should not be interpreted as representing
  * official policies, either expressed or implied, of the FreeBSD Project.
  */
-package com.piokot.ftp;
-
-import com.piokot.ftp.api.Callback;
-import lombok.SneakyThrows;
-import org.apache.commons.net.ftp.FTPClient;
 
 /**
- * FTP Command for deleting a file.
+ * API for FTP wrapper.
  *
  * @author Piotr Kotlicki (piotr.kotlicki@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class FileDelete extends AbstractFTPCommand<Boolean> {
-    /**
-     * File to be deleted.
-     */
-    private final transient String file;
-
-    /**
-     * Class constructor.
-     *
-     * @param remote Remote file location to be deleted.
-     * @param callback Callback on result of file deletion.
-     */
-    public FileDelete(final String remote, final Callback<Boolean> callback) {
-        super(callback);
-        this.file = remote;
-    }
-
-    @Override
-    @SneakyThrows
-    public Boolean ftpCall(final FTPClient client) {
-        return client.deleteFile(this.file);
-    }
-}
+package com.piokot.ftp.api;

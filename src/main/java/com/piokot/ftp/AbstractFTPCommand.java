@@ -30,36 +30,45 @@
 package com.piokot.ftp;
 
 import com.piokot.ftp.api.Callback;
-import lombok.SneakyThrows;
+import com.piokot.ftp.api.FTPCommand;
 import org.apache.commons.net.ftp.FTPClient;
 
 /**
- * FTP Command for deleting a file.
+ * Parametrized general FTP Command.
  *
  * @author Piotr Kotlicki (piotr.kotlicki@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class FileDelete extends AbstractFTPCommand<Boolean> {
+public abstract class AbstractFTPCommand<T> implements FTPCommand {
     /**
-     * File to be deleted.
+     * Callback after FTP execution.
      */
-    private final transient String file;
+    private final transient Callback<T> call;
 
     /**
      * Class constructor.
      *
-     * @param remote Remote file location to be deleted.
-     * @param callback Callback on result of file deletion.
+     * @param callback How handle result of type T of FTP call execution.
      */
-    public FileDelete(final String remote, final Callback<Boolean> callback) {
-        super(callback);
-        this.file = remote;
+    public AbstractFTPCommand(final Callback<T> callback) {
+        this.call = callback;
     }
 
-    @Override
-    @SneakyThrows
-    public Boolean ftpCall(final FTPClient client) {
-        return client.deleteFile(this.file);
+    /**
+     * Wrap of the FTP call.
+     *
+     * @param client Apache FTP client.
+     */
+    public final void execute(final FTPClient client) {
+        this.call.onReturn(this.ftpCall(client));
     }
+
+    /**
+     * FTP call being wrapped.
+     *
+     * @param client Apache FTP client.
+     * @return Parametrized result of specific FTP action call.
+     */
+    protected abstract T ftpCall(final FTPClient client);
 }
