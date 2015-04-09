@@ -126,8 +126,18 @@ Download as a zip all files found recursively with given prefix:
 
 ```
 new FTP(server, port, username, password).onConnect(
-    new FileSearch("dir", "prefix", true, new Zip())
+    new FileSearch("dir", new Prefix("prefix"), true, new Zip())
 );
+class Prefix implements Filter<FTPFile> {
+    private final transient String prfx;
+    Prefix(final String prefix) {
+        this.prfx = prefix;
+    }
+    @Override
+    public boolean valid(final FTPFile file) {
+        return file.getName().startsWith(this.prfx);
+    }
+}
 class Zip implements Callback<Iterable<String>> {
     @Override
     @SneakyThrows

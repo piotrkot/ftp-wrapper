@@ -31,6 +31,7 @@ package com.piokot.ftp;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.piokot.ftp.api.Filter;
 import com.piokot.ftp.mock.MockCallback;
 import lombok.SneakyThrows;
 import org.apache.commons.net.ftp.FTPClient;
@@ -119,7 +120,7 @@ public final class FileSearchMockitoTest {
     public void shouldFindRecursively() {
         final Iterable<String> findings = new FileSearch(
             DIR_OUT,
-            PRE,
+            new Prefix(PRE),
             true,
             new MockCallback<Iterable<String>>()
         ).ftpCall(this.client);
@@ -136,7 +137,7 @@ public final class FileSearchMockitoTest {
     public void shouldFind() {
         final Iterable<String> findings = new FileSearch(
             DIR_IN,
-            PRE,
+            new Prefix(PRE),
             false,
             new MockCallback<Iterable<String>>()
         ).ftpCall(this.client);
@@ -153,7 +154,7 @@ public final class FileSearchMockitoTest {
     public void shouldNotFind() {
         final Iterable<String> findings = new FileSearch(
             DIR_OUT,
-            PRE,
+            new Prefix(PRE),
             false,
             new MockCallback<Iterable<String>>()
         ).ftpCall(this.client);
@@ -163,4 +164,25 @@ public final class FileSearchMockitoTest {
         );
     }
 
+    /**
+     * Filter on FTPFile that accepts file names with given prefix.
+     */
+    final class Prefix implements Filter<FTPFile> {
+        /**
+         * File name prefix.
+         */
+        private final transient String prfx;
+        /**
+         * Class constructor.
+         *
+         * @param prefix Prefix of file name.
+         */
+        Prefix(final String prefix) {
+            this.prfx = prefix;
+        }
+        @Override
+        public boolean valid(final FTPFile file) {
+            return file.getName().startsWith(this.prfx);
+        }
+    }
 }

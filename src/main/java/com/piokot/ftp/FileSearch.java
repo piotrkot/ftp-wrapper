@@ -31,6 +31,7 @@ package com.piokot.ftp;
 
 import com.google.common.base.Joiner;
 import com.piokot.ftp.api.Callback;
+import com.piokot.ftp.api.Filter;
 import java.util.ArrayList;
 import java.util.Collection;
 import lombok.SneakyThrows;
@@ -50,9 +51,9 @@ public final class FileSearch extends AbstractFTPCommand<Iterable<String>> {
      */
     private final transient String dir;
     /**
-     * Prefix for files found.
+     * Filter for files found.
      */
-    private final transient String prfx;
+    private final transient Filter<FTPFile> fltr;
     /**
      * Is search recursive.
      */
@@ -62,20 +63,20 @@ public final class FileSearch extends AbstractFTPCommand<Iterable<String>> {
      * Class constructor.
      *
      * @param directory Directory to start search from.
-     * @param prefix Limiting files found to those with prefix, only.
+     * @param filter Limiting files found to those filtered.
      * @param recursive Is search recursive.
      * @param callback Callback on files found.
      * @checkstyle ParameterNumberCheck (6 lines)
      */
     public FileSearch(
         final String directory,
-        final String prefix,
+        final Filter<FTPFile> filter,
         final boolean recursive,
         final Callback<Iterable<String>> callback
     ) {
         super(callback);
         this.dir = directory;
-        this.prfx = prefix;
+        this.fltr = filter;
         this.recurs = recursive;
     }
 
@@ -101,7 +102,7 @@ public final class FileSearch extends AbstractFTPCommand<Iterable<String>> {
         final String sep = "/";
         final FTPFile[] ftpFiles = client.listFiles(directory);
         for (final FTPFile ftpFile : ftpFiles) {
-            if (ftpFile.isFile() && ftpFile.getName().startsWith(this.prfx)) {
+            if (ftpFile.isFile() && this.fltr.valid(ftpFile)) {
                 result.add(Joiner.on(sep).join(directory, ftpFile.getName()));
             } else if (ftpFile.isDirectory() && this.recurs) {
                 this.search(
