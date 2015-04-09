@@ -75,7 +75,7 @@ public final class FTPMockitoTest {
     @Test
     @SneakyThrows
     public void shouldUpload() {
-        final String loc = "TestFTP/testStream";
+        final String loc = "dir/uploadLoc";
         new FileUpload(
             loc,
             new ByteArrayInputStream(
@@ -86,6 +86,38 @@ public final class FTPMockitoTest {
         Mockito.verify(this.client).storeFile(
             Matchers.matches(loc),
             Matchers.any(InputStream.class)
+        );
+    }
+
+    /**
+     * Should download file.
+     */
+    @Test
+    @SneakyThrows
+    public void shouldDownload() {
+        final String loc = "dir/fileToDownload";
+        new FileDownload(
+            loc,
+            new MockCallback<InputStream>()
+        ).ftpCall(this.client);
+        Mockito.verify(this.client).retrieveFileStream(
+            Matchers.matches(loc)
+        );
+    }
+
+    /**
+     * Should delete file.
+     */
+    @Test
+    @SneakyThrows
+    public void shouldDelete() {
+        final String loc = "dir/fileToDelete";
+        new FileDelete(
+            loc,
+            new MockCallback<Boolean>()
+        ).ftpCall(this.client);
+        Mockito.verify(this.client).deleteFile(
+            Matchers.matches(loc)
         );
     }
 }
