@@ -59,22 +59,22 @@ public final class FTPMockitoTest {
     private transient FTPClient client;
 
     /**
-     * Should connect to location.
+     * Can call list FTP files from FTPClient.
      */
     @Test
     @SneakyThrows
-    public void shouldConnect() {
+    public void callListFTPFiles() {
         final String dir = "dir";
         new DirList(dir, new MockCallback<FTPFile[]>()).ftpCall(this.client);
         Mockito.verify(this.client).listFiles(Matchers.matches(dir));
     }
 
     /**
-     * Should Upload simple file containing a string.
+     * Can call upload file to FTP location from FTPClient.
      */
     @Test
     @SneakyThrows
-    public void shouldUpload() {
+    public void callUploadFileToFTPLocation() {
         final String loc = "dir/uploadLoc";
         new FileUpload(
             loc,
@@ -90,11 +90,11 @@ public final class FTPMockitoTest {
     }
 
     /**
-     * Should download file.
+     * Can call download file from FTP location from FTPClient.
      */
     @Test
     @SneakyThrows
-    public void shouldDownload() {
+    public void callDownloadFileFromFTPLocation() {
         final String loc = "dir/fileToDownload";
         new FileDownload(
             loc,
@@ -106,11 +106,11 @@ public final class FTPMockitoTest {
     }
 
     /**
-     * Should delete file.
+     * Can call delete remote file from FTPClient.
      */
     @Test
     @SneakyThrows
-    public void shouldDelete() {
+    public void callDeleteRemoteFile() {
         final String loc = "dir/fileToDelete";
         new FileDelete(
             loc,

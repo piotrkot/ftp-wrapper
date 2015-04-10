@@ -67,7 +67,7 @@ public final class FileSearchMockitoTest {
     /**
      * Prefix.
      */
-    private static final String PRE = "pre";
+    private static final String PREFIX = "pre";
     /**
      * Found location.
      */
@@ -114,13 +114,13 @@ public final class FileSearchMockitoTest {
     }
 
     /**
-     * Should find recursively.
+     * Can find file with prefix recursively.
      */
     @Test
-    public void shouldFindRecursively() {
+    public void findingFileWithPrefixRecursively() {
         final Iterable<String> findings = new FileSearch(
             DIR_OUT,
-            new Prefix(PRE),
+            new Prefix(PREFIX),
             true,
             new MockCallback<Iterable<String>>()
         ).ftpCall(this.client);
@@ -131,13 +131,13 @@ public final class FileSearchMockitoTest {
     }
 
     /**
-     * Should find non-recursively.
+     * Can find file with prefix non-recursively.
      */
     @Test
-    public void shouldFind() {
+    public void findingFileWithPrefixNonRecursively() {
         final Iterable<String> findings = new FileSearch(
             DIR_IN,
-            new Prefix(PRE),
+            new Prefix(PREFIX),
             false,
             new MockCallback<Iterable<String>>()
         ).ftpCall(this.client);
@@ -148,13 +148,13 @@ public final class FileSearchMockitoTest {
     }
 
     /**
-     * Should not find non-recursively.
+     * Cannot find file in deep when searched non-recursively.
      */
     @Test
-    public void shouldNotFind() {
+    public void findingFileInDeepWhenSearchedNoNRecursively() {
         final Iterable<String> findings = new FileSearch(
             DIR_OUT,
-            new Prefix(PRE),
+            new Prefix(PREFIX),
             false,
             new MockCallback<Iterable<String>>()
         ).ftpCall(this.client);
