@@ -67,7 +67,7 @@ public final class FTP {
      * @param password User password for FTP connection.
      * @checkstyle ParameterNumberCheck (6 lines)
      */
-    FTP(
+    public FTP(
         final String host,
         final int port,
         final String user,
