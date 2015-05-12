@@ -68,12 +68,8 @@ public final class FileSearch extends AbstractFTPCommand<Iterable<String>> {
      * @param callback Callback on files found.
      * @checkstyle ParameterNumberCheck (6 lines)
      */
-    public FileSearch(
-        final String directory,
-        final Filter<FTPFile> filter,
-        final boolean recursive,
-        final Callback<Iterable<String>> callback
-    ) {
+    public FileSearch(final String directory, final Filter<FTPFile> filter,
+        final boolean recursive, final Callback<Iterable<String>> callback) {
         super(callback);
         this.dir = directory;
         this.fltr = filter;

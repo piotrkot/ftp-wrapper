@@ -58,11 +58,8 @@ public final class FileUpload extends AbstractFTPCommand<Boolean> {
      * @param local Local resource to upload.
      * @param callback Callback after upload execution.
      */
-    public FileUpload(
-        final String remote,
-        final InputStream local,
-        final Callback<Boolean> callback
-    ) {
+    public FileUpload(final String remote, final InputStream local,
+        final Callback<Boolean> callback) {
         super(callback);
         this.dst = remote;
         this.src = local;

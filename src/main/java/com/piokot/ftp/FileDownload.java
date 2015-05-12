@@ -53,10 +53,8 @@ public final class FileDownload extends AbstractFTPCommand<InputStream> {
      * @param remote Remote location of file to be downloaded.
      * @param callback Callback on file downloaded.
      */
-    public FileDownload(
-        final String remote,
-        final Callback<InputStream> callback
-    ) {
+    public FileDownload(final String remote,
+        final Callback<InputStream> callback) {
         super(callback);
         this.file = remote;
     }
