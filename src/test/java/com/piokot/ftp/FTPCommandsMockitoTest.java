@@ -51,7 +51,7 @@ import org.mockito.runners.MockitoJUnitRunner;
  * @since 1.0
  */
 @RunWith(MockitoJUnitRunner.class)
-public final class FTPMockitoTest {
+public final class FTPCommandsMockitoTest {
     /**
      * Wrapped FTP client.
      */

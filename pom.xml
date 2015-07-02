@@ -53,6 +53,13 @@
             <version>1.9.5</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.ftpserver</groupId>
+            <artifactId>ftpserver</artifactId>
+            <version>1.0.6</version>
+            <type>zip</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

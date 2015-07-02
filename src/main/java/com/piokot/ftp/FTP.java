@@ -57,7 +57,10 @@ public final class FTP {
      * User's password for connection.
      */
     private final transient String pass;
-
+    /**
+     * Apache FTP client wrapped.
+     */
+    private final transient FTPClient client;
     /**
      * Class constructor.
      *
@@ -65,7 +68,7 @@ public final class FTP {
      * @param port Port for FTP connection.
      * @param user User logging to FTP.
      * @param password User password for FTP connection.
-     * @checkstyle ParameterNumberCheck (6 lines)
+     * @checkstyle ParameterNumberCheck (2 lines)
      */
     public FTP(final String host, final int port, final String user,
         final String password) {
@@ -73,6 +76,7 @@ public final class FTP {
         this.prt = port;
         this.usr = user;
         this.pass = password;
+        this.client = new FTPClient();
     }
 
     /**
@@ -82,16 +86,15 @@ public final class FTP {
      */
     @SneakyThrows
     public void onConnect(final FTPCommand... commands) {
-        final FTPClient client = new FTPClient();
         try {
-            client.connect(this.hst, this.prt);
-            client.login(this.usr, this.pass);
+            this.client.connect(this.hst, this.prt);
+            this.client.login(this.usr, this.pass);
             for (final FTPCommand command : commands) {
-                command.execute(client);
+                command.execute(this.client);
             }
         } finally {
-            client.logout();
-            client.disconnect();
+            this.client.logout();
+            this.client.disconnect();
         }
     }
 }
